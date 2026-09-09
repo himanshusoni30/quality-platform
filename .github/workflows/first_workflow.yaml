@@ -21,4 +21,12 @@ jobs:
                 java -v || echo "no java"
                 node --version || echo "no node"
                 echo "Branch: ${{ github.ref_name }} | Event: ${{ github.event_name }}"
+    parallel-proof:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Get the code
+              uses: action/checkout@v4
+
+            - name: Sleep and Done
+              run: sleep 5 && echo done
     
