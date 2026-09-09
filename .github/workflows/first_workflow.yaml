@@ -24,8 +24,8 @@ jobs:
     parallel-proof:
         runs-on: ubuntu-latest
         steps:
-            - name: Get the code
-              uses: actions/checkout@v4
+            - name: Get the contents inside directory
+              run: ls -la
 
             - name: Sleep and Done
               run: sleep 5 && echo done
