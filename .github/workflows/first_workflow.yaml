@@ -22,6 +22,7 @@ jobs:
                 node --version || echo "no node"
                 echo "Branch: ${{ github.ref_name }} | Event: ${{ github.event_name }}"
     parallel-proof:
+        needs: [orientation]
         runs-on: ubuntu-latest
         steps:
             - name: Get the contents inside directory
