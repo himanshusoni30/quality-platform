@@ -8,17 +8,17 @@ on:
     workflow_dispatch:
 
 jobs:
-    runs-on: ubuntu-latest
+    orientation:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Get the code
+              uses: actions/checkout@v4
 
-    steps:
-        - name: Get the code
-          uses: actions/checkout@v4
-
-        - name: Look around the runner
-          run: |
-           pwd
-           ls -la
-           java -v || echo "no java"
-           node --version || echo "no node"
-           echo "Branch: ${{ github.ref_name }} | Event: ${{ github.event_name }}"
+            - name: Look around the runner
+              run: |
+                pwd
+                ls -la
+                java -v || echo "no java"
+                node --version || echo "no node"
+                echo "Branch: ${{ github.ref_name }} | Event: ${{ github.event_name }}"
     
