@@ -21,22 +21,21 @@ jobs:
                 distribution: temurin
                 cache: maven
             
-            - name: Start Up Application
-              #  -B runs Maven in batch mode, which is non-interactive and has no colored output
-              #  --no-transfer-progress (short form -ntp, needs Maven 3.6.1 or later) stops Maven from printing download progress for dependencies.
-              #  nohup - no hang up command in linux, allows a process to keep running even after you close the terminal, log out, or disconnect from an SSH session
-              #  & - run command in the back ground and move on to the next step
-              run: |
-                cd lab
-                nohup mvn -B --no-transfer-progress spring-boot:run > spring.log 2>&1 &
+            # - name: Start Up Application
+            #   #  -B runs Maven in batch mode, which is non-interactive and has no colored output
+            #   #  --no-transfer-progress (short form -ntp, needs Maven 3.6.1 or later) stops Maven from printing download progress for dependencies.
+            #   #  nohup - no hang up command in linux, allows a process to keep running even after you close the terminal, log out, or disconnect from an SSH session
+            #   #  & - run command in the back ground and move on to the next step
+            #   run: |
+            #     cd lab
+            #     nohup mvn -B --no-transfer-progress spring-boot:run > spring.log 2>&1 &
 
-            - name: Perform Health Checks
-              run: |
-                timeout 60s bash -c 'until curl -s http://localhost:8080/actuator/health | grep "UP"; do sleep 2; done'
+            # - name: Perform Health Checks
+            #   run: |
+            #     timeout 60s bash -c 'until curl -s http://localhost:8080/actuator/health | grep "UP"; do sleep 2; done'
 
             - name: Run Tests
               run: |
-                ls -la
                 cd lab
                 ls -la
                 mvn -B -ntp test
