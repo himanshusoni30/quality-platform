@@ -22,10 +22,14 @@ jobs:
                 cache: maven
             
             - name: Start Up Application and Run Tests
+              #  -B runs Maven in batch mode, which is non-interactive and has no colored output
+              #  --no-transfer-progress (short form -ntp, needs Maven 3.6.1 or later) stops Maven from printing download progress for dependencies.
+              #  nohup - no hang up command in linux, allows a process to keep running even after you close the terminal, log out, or disconnect from an SSH session
+              #  & - run command in the back ground and move on to the next step
               run: |
                 cd lab
                 mvn clean install
-                nohup mvn spring-boot:run > spring.log 2>&1 &
+                nohup mvn -B --no-transfer-progress spring-boot:run > spring.log 2>&1 &
 
             - name: Perform Health Checks
               run: |
@@ -36,4 +40,12 @@ jobs:
                 ls -la
                 cd lab
                 ls -la
-                mvn surefire-report:report
+                mvn -B -ntp surefire-report:report
+
+            - name: Publish Test Report
+              if: always()    #By default, GitHub Actions stops running subsequent steps if a previous step (like running the tests) fails. The always() conditional overrides this behavior. It forces this step to run no matter what—whether the tests passed, failed, or timed out. Without this, if your tests fail, your test reports would never be uploaded, leaving you with no data to debug.
+              uses: actions/upload-artifact@v4
+              with:
+                name: surefire-reports
+                path: lab/target/reports/surefire-reports
+                
