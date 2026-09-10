@@ -28,7 +28,6 @@ jobs:
               #  & - run command in the back ground and move on to the next step
               run: |
                 cd lab
-                mvn clean install
                 nohup mvn -B --no-transfer-progress spring-boot:run > spring.log 2>&1 &
 
             - name: Perform Health Checks
