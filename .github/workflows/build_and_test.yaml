@@ -7,8 +7,9 @@ on:
         branches: [main]
 
 jobs:
-    build:
+    build-and-test:
         runs-on: ubuntu-latest
+        timeout-minutes: 15 #expected to finish execution with this time and do not hang the job
         steps:
             - name: Get the code
               uses: actions/checkout@v4
@@ -20,15 +21,9 @@ jobs:
                 distribution: temurin
                 cache: maven
             
-            - name: Start Up spring boot application
+            - name: Start Up Application and Run Tests
               run: |
                 cd lab
                 mvn clean install
                 mvn spring-boot:run
-
-            - name: Run tests
-              run: |
-                ls -la
                 mvn surefire-report:report
-               
-
