@@ -21,7 +21,7 @@ jobs:
                 distribution: temurin
                 cache: maven
             
-            - name: Start Up Application and Run Tests
+            - name: Start Up Application
               #  -B runs Maven in batch mode, which is non-interactive and has no colored output
               #  --no-transfer-progress (short form -ntp, needs Maven 3.6.1 or later) stops Maven from printing download progress for dependencies.
               #  nohup - no hang up command in linux, allows a process to keep running even after you close the terminal, log out, or disconnect from an SSH session
@@ -47,5 +47,5 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                 name: surefire-reports
-                path: lab/target/reports/surefire-reports
+                path: target/reports/surefire-reports
                 
