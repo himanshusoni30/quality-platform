@@ -39,7 +39,13 @@ jobs:
                 ls -la
                 cd lab
                 ls -la
-                mvn -B -ntp surefire-report:report
+                mvn -B -ntp test
+
+            - name: Build only surefire report
+              if: always()
+              run: |
+                cd lab
+                mvn -B -ntp surefire-report:report-only
 
             - name: Publish Test Report
             #By default, GitHub Actions stops running subsequent steps if a previous step (like running the tests) fails. The always() conditional overrides this behavior. It forces this step to run no matter what—whether the tests passed, failed, or timed out. Without this, if your tests fail, your test reports would never be uploaded, leaving you with no data to debug.
