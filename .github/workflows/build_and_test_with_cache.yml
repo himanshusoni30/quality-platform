@@ -17,6 +17,14 @@ jobs:
           java-version: 17
           distribution: temurin
 
+      - name: Add caching explicitly
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ runner.os }}-{{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            maven-${{ runner.os }}-
+
       - name: Run Tests
         run: |
           cd lab
