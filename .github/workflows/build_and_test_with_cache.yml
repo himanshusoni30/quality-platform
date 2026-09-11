@@ -8,6 +8,9 @@ jobs:
   cache-test:
     runs-on: ubuntu-latest
     steps:
+      - name: Get code
+        uses: actions/checkout@v4
+        
       - name: SetUp Java 17
         uses: actions/setup-java@v4
         with:
