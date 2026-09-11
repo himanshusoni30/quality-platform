@@ -1,0 +1,32 @@
+run-name: Build and Test using mvn cache
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  cache-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SetUp Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: temurin
+
+      - name: Run Tests
+        run: |
+          cd lab
+          mvn -B -ntp test
+
+      - name: Generate surefire report
+        run: |
+          cd lab
+          mvn -B --no-transfer-progress surefire-report:report-only
+
+      - name: Publish artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-reports
+          path: lab/target/reports
