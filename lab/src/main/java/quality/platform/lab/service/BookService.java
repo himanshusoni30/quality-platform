@@ -40,7 +40,7 @@ public class BookService {
         if (parent != null) {
             parent.mkdirs();
         }
-        jsonMapper.writerWithDefaultPrettyPrinter().writeValue(dataFile, books.values());
+        jsonMapper.writeValue(dataFile, books.values());
     }
 
     public Book getById(UUID id) {
