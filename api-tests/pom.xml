@@ -10,9 +10,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>quality.platform</groupId>
-	<artifactId>lab</artifactId>
+	<artifactId>api-tests</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>lab</name>
+	<name>api-tests</name>
 	<description />
 	<url />
 	<licenses>
