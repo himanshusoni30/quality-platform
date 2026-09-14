@@ -1,11 +1,14 @@
-run-name: Build and Test using mvn cache
+run-name: API Tests
 
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
-  cache-test:
+  api-test:
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
       - name: Get code
@@ -16,18 +19,19 @@ jobs:
         with:
           java-version: 17
           distribution: temurin
+          cache: maven
 
-      - name: Add caching explicitly
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2/repository
-          key: maven-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            maven-${{ runner.os }}-
+      # - name: Add caching explicitly
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: ~/.m2/repository
+      #     key: maven-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
+      #     restore-keys: |
+      #       maven-${{ runner.os }}-
 
       - name: Run Tests
         run: |
-          cd lab
+          cd api-tests
           mvn -B -ntp test
 
       - name: Generate surefire report

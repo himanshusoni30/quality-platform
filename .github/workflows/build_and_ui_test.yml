@@ -1,0 +1,33 @@
+run-name: UI Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  ui-test:
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v6
+        
+      - name: Set-up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - name: Install Playwright dependencies and Browser
+        run: |
+          cd ui-tests
+          npm ci
+          npm install
+          npx playwright install --with-deps chromium
+
+      - name: Run Tests
+        run: |
+          cd ui-tests
+          npx playwright test
