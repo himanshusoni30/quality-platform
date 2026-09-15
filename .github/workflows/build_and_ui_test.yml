@@ -9,6 +9,7 @@ on:
 jobs:
   ui-test:
     timeout-minutes: 20
+    environment: QA
     runs-on: ubuntu-latest
     steps:
       - name: Get code
@@ -29,6 +30,26 @@ jobs:
           npx playwright install --with-deps chromium
 
       - name: Run Tests
+        env:
+          CUSTOMER_PASSWORD: ${{ secrets.CUSTOMER_PASSWORD }}  # Reads from Environment Secrets
+          CUSTOMER_EMAIL: ${{ vars.CUSTOMER_EMAIL }}             # Reads from Environment Variables
         run: |
           cd ui-tests
           npx playwright test
+
+      - name: Upload HTML Reports
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: playwright-report-${{ github.run_attempt }}
+          path: ui-tests/playwright-report/
+          retention-days: 14
+
+      - name: Upload Traces
+        if: failure()
+        uses: actions/upload-artifact@v6
+        with:
+          name: playwright-traces-${{ github.run_id }}
+          path: ui-tests/test-results/
+          retention-days: 7
+        
