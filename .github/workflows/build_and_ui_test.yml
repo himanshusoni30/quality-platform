@@ -9,6 +9,7 @@ on:
 jobs:
   ui-test:
     timeout-minutes: 20
+    environment: QA
     runs-on: ubuntu-latest
     steps:
       - name: Get code
@@ -29,6 +30,9 @@ jobs:
           npx playwright install --with-deps chromium
 
       - name: Run Tests
+        env:
+          CUSTOMER_PASSWORD: ${{ secrets.CUSTOMER_PASSWORD }}  # Reads from Environment Secrets
+          CUSTOMER_EMAIL: ${{ vars.CUSTOMER_EMAIL }}             # Reads from Environment Variables
         run: |
           cd ui-tests
           npx playwright test
