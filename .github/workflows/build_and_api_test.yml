@@ -36,7 +36,7 @@ jobs:
 
       - name: Generate surefire report
         run: |
-          cd lab
+          cd api-tests
           mvn -B --no-transfer-progress surefire-report:report-only
 
       - name: Publish artifacts
