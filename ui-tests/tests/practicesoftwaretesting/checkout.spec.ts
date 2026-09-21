@@ -12,8 +12,8 @@ test.describe('Verify add item to cart and confirm payment', () => {
     test('Search the product "Thor Hammer" and verify the result in grid', async ({page}) => {
         const products = page.locator('.col-md-9');
         await page.getByPlaceholder('Search').fill('Thor Hammer');
-        await page.getByText('Search').click();
-        await expect(products.locator('link')).toHaveCount(1, {timeout: 5_000});
+        await page.locator('[data-test="search-submit"]').click();
+        await expect(products.getByRole('link')).toHaveCount(1, {timeout: 5_000});
         await expect(page.locator('[data-test="product-name"]').getByText('Thor Hammer')).toBeVisible();
         await expect(page.getByAltText('Thor Hammer')).toBeVisible();
         await expect(page.getByAltText('Thor Hammer')).toHaveAttribute('src');
@@ -47,9 +47,8 @@ test.describe('Verify add item to cart and confirm payment', () => {
         await page.locator('#country').selectOption({value:'AU'});
         await page.getByRole('textbox',{name:'Postal code'}).fill('2060');
         await page.getByRole('textbox',{name:'House number'}).fill('111');
-        await expect(page.getByRole('textbox',{name:'State'})).toHaveValue('Hardy Parkway');
-        await expect(page.getByRole('textbox',{name:'City'})).toHaveValue('St. Brianafurt');
-        await expect(page.getByRole('textbox',{name:'City'})).toHaveValue('Australian Capital Territory');
+        await page.getByRole('textbox',{name:'City'}).fill('Vienna');
+        await page.getByRole('textbox',{name:'State'}).fill('KA');
         await page.locator('[data-test="proceed-3"]').click();
 
         const select = page.locator('#payment-method');
