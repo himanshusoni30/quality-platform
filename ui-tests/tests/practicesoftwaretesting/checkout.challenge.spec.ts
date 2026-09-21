@@ -11,6 +11,7 @@ test.describe('Verify screenshots -> add item to cart and confirm payment', () =
     });
 
     test('Search the product "Thor Hammer" and verify the result in grid', async ({ page }) => {
+        test.slow();
         // await page.goto("https://practicesoftwaretesting.com");
         const products = page.locator('.col-md-9');
         await page.getByPlaceholder('Search').fill('Thor Hammer');
@@ -44,8 +45,7 @@ test.describe('Verify screenshots -> add item to cart and confirm payment', () =
             await expect(page).toHaveScreenshot("thor-hammer-add-to-cart.png")
         });
         
-        await page.waitForTimeout(15000);
-        await expect(page.locator('#toast-container')).not.toBeVisible();
+        await expect(page.locator('#toast-container')).not.toBeVisible({ timeout: 20_000 });
         
         await expect(page.locator('span#lblCartCount')).toHaveText('1');
 
@@ -75,11 +75,11 @@ test.describe('Verify screenshots -> add item to cart and confirm payment', () =
         
         await page.locator('[data-test="proceed-2"]').click();
 
-        await page.locator('#address').fill('Test street 100');
-        await page.locator('#city').fill('Vienna');
-        await page.locator('#state').fill('KA');
-        await page.locator('#country').fill('Austria');
-        await page.locator('#postcode').fill('00000');
+        await page.locator('#country').selectOption({ value: 'AU' });
+        await page.getByRole('textbox', { name: 'Postal code' }).fill('2060');
+        await page.getByRole('textbox', { name: 'House number' }).fill('111');
+        await page.getByRole('textbox', { name: 'City' }).fill('Vienna');
+        await page.getByRole('textbox', { name: 'State' }).fill('KA');
         test.step.skip('skipping screenshot of thor-hammer-incart-address-screen', async () => {
             await expect(page).toHaveScreenshot("thor-hammer-incart-address-screen.png");
         });
