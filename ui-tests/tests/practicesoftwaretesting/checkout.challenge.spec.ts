@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test"
+import { test, expect } from "../../fixtures/stealth"
 import dotenv from "dotenv"
 
 test.describe('Verify screenshots -> add item to cart and confirm payment', () => {

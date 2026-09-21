@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../../fixtures/stealth';
 import dotenv from "dotenv";
 
 test.describe('Home Page Tests without login', () => {
@@ -31,7 +31,7 @@ test.describe('Home Page Tests without login', () => {
         const products = page.locator('.col-md-9');
         await page.getByPlaceholder('Search').fill('Thor Hammer');
         await page.getByRole('button').getByText('Search').click();
-        await expect(products.getByRole('link')).toHaveCount(1);
+        await expect(products.getByRole('link')).toHaveCount(1, {timeout: 5_000});
         // expect(await products.getByRole('link').count()).toBe(9);
         // page.locator('[data-test="product-name"]').getByText('Thor Hammer').click();
         await expect(page.locator('[data-test="product-name"]').getByText('Thor Hammer')).toBeVisible();

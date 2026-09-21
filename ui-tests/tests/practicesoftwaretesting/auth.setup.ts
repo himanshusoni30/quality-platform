@@ -1,7 +1,4 @@
-import { test as setup, expect } from "@playwright/test"
-import dotenv from 'dotenv';
-import path from 'path'
-dotenv.config({ path: path.resolve(__dirname, '.env')});
+import { test as setup, expect } from "../../fixtures/stealth";
 
 setup("auth setup", async ({ page, context }) => {
     const email = process.env.CUSTOMER_EMAIL;
@@ -14,6 +11,6 @@ setup("auth setup", async ({ page, context }) => {
     await page.locator('[data-test="password"]').fill(password);
     await page.locator('[data-test="login-submit"]').click();
 
-    await expect(page.locator('[data-test="nav-menu"]')).toContainText("Jane Doe");
+    await expect(page.locator('[data-test="nav-menu"]')).toContainText("Jane Doe", { timeout: 20_000 });
     await context.storageState({path: customer01AuthFile});
 });
