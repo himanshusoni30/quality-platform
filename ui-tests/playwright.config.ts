@@ -29,7 +29,7 @@ export default defineConfig({
     // baseURL: 'http://127.0.0.1:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',  
+    trace: 'on-first-retry',
   },
 
   /* Configure projects for major browsers */
@@ -44,17 +44,17 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'], permissions: ["clipboard-read","storage-access","clipboard-write"] },
     },
 
-    /*
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      dependencies: ["setup"],
+      use: { ...devices['Desktop Firefox']},
     },
 
     {
       name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      dependencies: ["setup"],
+      use: { ...devices['Desktop Safari']},
     },
-    */
 
     /* Test against mobile viewports. */
     // {
