@@ -29,9 +29,7 @@ jobs:
       - name: Install Playwright dependencies and Browser
         run: |
           cd ui-tests
-          npm ci
-          npm install
-          npx playwright install --with-deps chromium
+          npx playwright install --with-deps ${{ matrix.browser }}
 
       - name: Run Tests
         env:
