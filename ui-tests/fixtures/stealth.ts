@@ -8,7 +8,10 @@ const launchers = { chromium, firefox, webkit };
 // user-agent-override needs CDP, so it throws on firefox/webkit — drop it there.
 Object.entries(launchers).forEach(([engine, launcher]) => {
   const plugin = stealthPlugin();
-  if (engine !== 'chromium') plugin.enabledEvasions.delete('user-agent-override');
+  if (engine !== 'chromium') {
+    plugin.enabledEvasions.delete('user-agent-override');
+    plugin.enabledEvasions.delete('navigator.webdriver');
+  }
   launcher.use(plugin);
 });
 
