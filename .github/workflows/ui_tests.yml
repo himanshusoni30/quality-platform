@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: QA
     env:
-      PLAYWRIGHT_BROWSER_PATH: ${{ github.workspace }}/.playwright-browsers
+      PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.playwright-browsers
     strategy:
       fail-fast: false
       matrix:
