@@ -30,7 +30,7 @@ jobs:
         run: |
           cd ui-tests
           npm ci
-          npx playwright install --with-deps ${{ matrix.browser }}
+          npx playwright install --with-deps ${{ matrix.browser }} ${{ matrix.browser == 'chromium' && 'chromium-headless-shell' || ''}}
 
       - name: Run Tests
         env:
