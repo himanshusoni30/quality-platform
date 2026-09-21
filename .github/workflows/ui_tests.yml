@@ -11,12 +11,14 @@ jobs:
     timeout-minutes: 20
     runs-on: ubuntu-latest
     environment: QA
-    env:
-      PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.playwright-browsers
+    
     strategy:
       fail-fast: false
       matrix:
         browser: [chromium, firefox, webkit]
+    env:
+      PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.playwright-browsers
+      BROWSER: ${{ matrix.browser }}
     steps:
       - name: Get code
         uses: actions/checkout@v6
@@ -32,8 +34,8 @@ jobs:
         run: |
           cd ui-tests
           npm ci
-          npx playwright install --with-deps ${{ matrix.browser }}
-          if [ "${{ matrix.browser }}" == "chromium" ]; then
+          npx playwright install --with-deps "${BROWSER}"
+          if [ "${BROWSER}" == "chromium" ]; then
             npx playwright install chromium-headless-shell
           fi
           npx playwright install --list
@@ -44,7 +46,7 @@ jobs:
           CUSTOMER_PASSWORD: ${{ secrets.CUSTOMER_PASSWORD }}
         run: |
           cd ui-tests
-          npx playwright test --project=${{ matrix.browser }}
+          npx playwright test --project="${BROWSER}"
 
       - name: Upload Reports
         if: always()
