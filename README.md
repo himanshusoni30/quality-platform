@@ -132,3 +132,6 @@ Results land in `api-tests/target/surefire-reports/`.
 `.github/workflows/api_tests.yml` runs on push/PR to `main`: Temurin JDK 17 with Maven caching,
 `mvn -B -ntp test`, then `surefire-report:report-only`, uploading the reports as the
 `surefire-reports` artifact.
+
+Badges:
+[![.github/workflows/ui_tests.yml](https://github.com/himanshusoni30/quality-platform/actions/workflows/ui_tests.yml/badge.svg)](https://github.com/himanshusoni30/quality-platform/actions/workflows/ui_tests.yml)
