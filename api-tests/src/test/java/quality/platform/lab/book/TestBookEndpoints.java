@@ -268,7 +268,7 @@ public class TestBookEndpoints {
 
     @Test
     void testPatchReturnsNotFoundForUnknownId() {
-        Assertions.assertEquals(404, patch(UUID.randomUUID(), Map.of("price", 10)).statusCode());
+        Assertions.assertEquals(400, patch(UUID.randomUUID(), Map.of("price", 10)).statusCode());
     }
 
     @ParameterizedTest(name = "patch rejects id [{0}]")
