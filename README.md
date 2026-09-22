@@ -5,6 +5,7 @@ Automation practice repo containing UI/API test suites and their CI workflows.
 ```
 .
 ├── .github/workflows     # CI: ui_tests.yml, api_tests.yml, build_and_test.yaml
+├── api-tests
 ├── api-tests             # Spring Boot app + REST Assured API suite
 └── ui-tests              # Playwright + TypeScript suite
 ```
