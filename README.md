@@ -6,6 +6,7 @@ Automation practice repo containing UI/API test suites and their CI workflows.
 .
 ├── .github/workflows     # CI: ui_tests.yml, api_tests.yml, build_and_test.yaml
 ├── api-tests
+├── api-tests             # Spring Boot app + REST Assured API suite
 └── ui-tests              # Playwright + TypeScript suite
 ```
 
@@ -70,3 +71,71 @@ npx playwright show-report                   # last HTML report
 `fail-fast: false` matrix over `chromium`, `firefox`, `webkit`. Credentials come from
 `vars.CUSTOMER_EMAIL` and `secrets.CUSTOMER_PASSWORD`; the HTML report and `test-results/`
 are uploaded as per-browser artifacts.
+
+## API Tests (`api-tests`)
+
+A Maven / Spring Boot 4.1 (Java 17) module that ships both the application under test and its
+API suite. Tests use REST Assured 6 with JUnit 5 and Datafaker for test data.
+
+### Structure
+
+```
+api-tests
+├── pom.xml
+├── mvnw / mvnw.cmd
+├── data/books.json                  # book store seed data
+└── src
+    ├── main/java/quality/platform/lab
+    │   ├── LabApplication.java
+    │   ├── controller/              # BookController, TrainController
+    │   ├── service/                 # BookService, TrainService
+    │   └── dto/                     # Book, Train, Reservation, Passenger, Tier, ...
+    ├── main/resources
+    │   ├── application.properties
+    │   └── trains.json              # train seed data
+    └── test/java/quality/platform/lab
+        ├── LabApplicationTests.java
+        ├── TestDataFiles.java
+        ├── book/                    # TestBookEndpoints, TestCrudOpsInBookEntity
+        └── train/                   # TrainApiTestBase, TestTrainEndpoints,
+                                     # TestReservationEndpoints
+```
+
+### Configuration
+
+`src/main/resources/application.properties`:
+
+```
+server.port=8080
+books.data-file=data/books.json
+trains.seed-file=trains.json
+reservations.data-file=data/reservations.json
+management.endpoints.web.exposure.include=health
+```
+
+Tests boot the app on a random port, so no separate server start is needed.
+
+### Running
+
+```bash
+cd api-tests
+./mvnw -B -ntp test                                  # full suite
+./mvnw -B test -Dtest=TestBookEndpoints              # single class
+./mvnw -B test -Dtest=TestTrainEndpoints#methodName  # single test
+./mvnw surefire-report:report-only                   # HTML report in target/site
+./mvnw spring-boot:run                               # run the app on :8080
+```
+
+Results land in `api-tests/target/surefire-reports/`.
+
+### CI
+
+`.github/workflows/api_tests.yml` runs on push/PR to `main`: Temurin JDK 17 with Maven caching,
+`mvn -B -ntp test`, then `surefire-report:report-only`, uploading the reports as the
+`surefire-reports` artifact.
+
+Badges:
+[![.github/workflows/ui_tests.yml](https://github.com/himanshusoni30/quality-platform/actions/workflows/ui_tests.yml/badge.svg)](https://github.com/himanshusoni30/quality-platform/actions/workflows/ui_tests.yml)
+
+[![.github/workflows/api_tests.yml](https://github.com/himanshusoni30/quality-platform/actions/workflows/api_tests.yml/badge.svg)](https://github.com/himanshusoni30/quality-platform/actions/workflows/api_tests.yml)
+
